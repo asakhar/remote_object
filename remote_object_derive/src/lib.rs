@@ -42,13 +42,15 @@ fn process_enum(name: Ident, data: DataEnum) -> TokenStream {
         }
     }
     let vacant = HashSet::from_iter(0..data.variants.len() as isize);
-    let mut vacant = vacant.difference(&taken);
+    let mut vacant = Vec::from_iter(vacant.difference(&taken).copied());
+    vacant.sort();
+    let mut vacant = vacant.into_iter();
     for var in data.variants {
         if var.discriminant.is_none() {
             mapping.insert(
                 var.ident.clone(),
                 (
-                    *vacant.next().unwrap(),
+                    vacant.next().unwrap(),
                     fields_to_idents_and_types(&var.fields),
                 ),
             );

@@ -6,6 +6,7 @@ edition = "2021"
 [[test]]
 name = "test1"
 path = "tests/test1.rs"
+
 [[test]]
 name = "test_derive_enum"
 path = "tests/test_derive_enum.rs"
@@ -13,4 +14,8 @@ path = "tests/test_derive_enum.rs"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-remote_object_derive = {path="./remote_object_derive"}
+remote_object_derive = {path="./remote_object_derive", optional = true}
+
+[features]
+default = ["derive"]
+derive = ["dep:remote_object_derive"]
